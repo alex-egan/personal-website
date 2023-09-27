@@ -1,0 +1,95 @@
+---
+interface Props {
+    url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<nav class="flex content-center m-4 space-x-4 text-white ml-6 mr-6">
+    <div id="header" class="flex w-full">
+        <div class="w-full text-4xl">
+            <a class=`font-bold text-gradient` href="/">Alex Egan</a>
+        </div>
+        <div class="menu justify-self-end text-xl">
+            <button id="openSidebar" class="btn"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </div>
+    <div id="options" class="options w-full flex justify-end space-x-8 mt-1 text-xl">
+        <button id="closeSidebar" class="close-button">X</button>
+
+        <a class=`page ${url.includes("about") ? "underline" : ""}` href="/about">About</a>
+        <a class=`page ${url.includes("resume") ? "underline" : ""}`href="/resume">Resume</a>
+        <a class=`page ${url.includes("projects") ? "underline" : ""}`href="/projects">Projects</a>
+        <a class=`page ${url.includes("contact") ? "underline" : ""}` href="/contact">Contact</a>
+    </div>
+</nav>
+
+<script src="https://kit.fontawesome.com/01d1a95d6a.js" crossorigin="anonymous"></script>
+<script>
+    document.getElementById("openSidebar")?.addEventListener("click", () => {
+        openSidebar();
+    });
+
+    document.getElementById("closeSidebar")?.addEventListener("click", () => {
+        closeSidebar();
+    });
+
+    function openSidebar() {
+        document.getElementById("options")?.classList.add("open");
+        document.getElementById("header")?.classList.add("closed");
+    }
+
+    function closeSidebar() {
+        document.getElementById("options")?.classList.remove("open");
+        document.getElementById("header")?.classList.remove("closed");
+    }
+</script>
+
+<style>
+    .menu {
+        display:none;
+    }
+
+    .close-button {
+        display: none;
+    }
+
+    .closed {
+        display: none;
+    }
+
+    .open {
+        transition: transform 10000ms ease-in;
+    }
+
+    @media screen and (max-width: 700px) {
+		.menu {
+            display: flex;
+        }
+    
+        .close-button {
+            display: flex;
+            align-self: end;
+        }
+
+        .options {
+            display: none;
+            justify-content: start;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+		}
+
+        .open {
+            display: flex;
+            flex-direction: column;
+            justify-self: end;
+            transition: 10000ms ease-out;
+        }
+
+        .page {
+            margin-top: 1rem;
+        }
+	}
+</style>
