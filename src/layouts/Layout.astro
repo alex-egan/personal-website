@@ -18,8 +18,8 @@ const url = Astro.url.pathname;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
+	<Navbar url={url}></Navbar>
 	<body>
-		<Navbar url={url}></Navbar>
 		<slot />
 	</body>
 </html>
@@ -39,6 +39,21 @@ const url = Astro.url.pathname;
 		font-family: system-ui, sans-serif;
 		background: #13151a;
 		background-size: 224px;
+		height: 100vh;
+		width: 100%;
+	}
+	body {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100%;
+	}
+	header {
+		height: 3rem;
+	}
+	main {
+		flex: 1 0 0;
+		overflow: auto;
 	}
 	code {
 		font-family:
@@ -57,11 +72,5 @@ const url = Astro.url.pathname;
 		-webkit-text-fill-color: transparent;
 		background-size: 400%;
 		background-position: 0%;
-	}
-	.underline {
-		text-decoration: "underline";
-		text-underline-offset: 8px;
-		font-weight: bold;
-		transform: 1turn;
 	}
 </style>
