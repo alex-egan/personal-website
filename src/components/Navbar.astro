@@ -6,24 +6,26 @@ interface Props {
 const { url } = Astro.props;
 ---
 
-<nav class="flex content-center m-4 space-x-4 text-white ml-6 mr-6">
-    <div id="header" class="flex w-full">
-        <div class="w-full text-4xl">
-            <a class=`font-bold text-gradient` href="/">Alex Egan</a>
+<header id="header" class="m-8">
+    <nav class="flex content-center space-x-4 text-white">
+        <div id="main-header" class="flex w-full">
+            <div class="w-full text-4xl">
+                <a class=`font-bold text-gradient` href="/">Alex Egan</a>
+            </div>
+            <div class="menu justify-self-end text-xl">
+                <button id="openSidebar" class="btn"><i class="fa-solid fa-bars"></i></button>
+            </div>
         </div>
-        <div class="menu justify-self-end text-xl">
-            <button id="openSidebar" class="btn"><i class="fa-solid fa-bars"></i></button>
+        <div id="pages" class="options w-full flex justify-end space-x-8 mt-2 text-xl">
+            <button id="closeSidebar" class="close-button">X</button>
+    
+            <a class=`page hover-underline-animation ${url.includes("about") ? "underline" : ""}` href="/about">About</a>
+            <a class=`page hover-underline-animation ${url.includes("resume") ? "underline" : ""}`href="/resume">Resume</a>
+            <a class=`page hover-underline-animation ${url.includes("projects") ? "underline" : ""}`href="/projects">Projects</a>
+            <a class=`page hover-underline-animation ${url.includes("contact") ? "underline" : ""}` href="/contact">Contact</a>
         </div>
-    </div>
-    <div id="options" class="options w-full flex justify-end space-x-8 mt-1 text-xl">
-        <button id="closeSidebar" class="close-button">X</button>
-
-        <a class=`page ${url.includes("about") ? "underline" : ""}` href="/about">About</a>
-        <a class=`page ${url.includes("resume") ? "underline" : ""}`href="/resume">Resume</a>
-        <a class=`page ${url.includes("projects") ? "underline" : ""}`href="/projects">Projects</a>
-        <a class=`page ${url.includes("contact") ? "underline" : ""}` href="/contact">Contact</a>
-    </div>
-</nav>
+    </nav>
+</header>
 
 <script src="https://kit.fontawesome.com/01d1a95d6a.js" crossorigin="anonymous"></script>
 <script>
@@ -36,13 +38,13 @@ const { url } = Astro.props;
     });
 
     function openSidebar() {
-        document.getElementById("options")?.classList.add("open");
-        document.getElementById("header")?.classList.add("closed");
+        document.getElementById("pages")?.classList.add("open");
+        document.getElementById("main-header")?.classList.add("closed");
     }
 
     function closeSidebar() {
-        document.getElementById("options")?.classList.remove("open");
-        document.getElementById("header")?.classList.remove("closed");
+        document.getElementById("pages")?.classList.remove("open");
+        document.getElementById("main-header")?.classList.remove("closed");
     }
 </script>
 
@@ -63,6 +65,50 @@ const { url } = Astro.props;
         transition: transform 10000ms ease-in;
     }
 
+    a::after {
+        opacity: 1;
+        transform: translate3d(-100%, 0, 0);
+    }
+
+    a:hover {
+        color: rgb(var(--accent));
+    }
+
+    a:hover::after,
+    a:focus::after {
+        transform: translate3d(0, 0, 0);
+    }
+
+    .hover-underline-animation {
+        display: inline-block;
+        position: relative;
+    }
+
+    .hover-underline-animation::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 3px;
+        bottom: 0;
+        left: 0;
+        background-color: rgb(var(--accent));
+        transform-origin: bottom right;
+        transition: transform 0.2s ease-out;
+    }
+
+    .hover-underline-animation:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .underline {
+		text-decoration: "underline";
+		text-underline-offset: 8px;
+		font-weight: bold;
+		transform: 1turn;
+	}
+
     @media screen and (max-width: 700px) {
 		.menu {
             display: flex;
@@ -73,6 +119,10 @@ const { url } = Astro.props;
             align-self: end;
         }
 
+        .hover-underline-animation::after {
+            top: 30px;
+        }
+
         .options {
             display: none;
             justify-content: start;
@@ -81,11 +131,20 @@ const { url } = Astro.props;
             height: 100vh;
 		}
 
+        header.open {
+            height: 100%;
+        }
+
         .open {
             display: flex;
             flex-direction: column;
             justify-self: end;
+            width: 100vw;
             transition: 10000ms ease-out;
+        }
+
+        .closed {
+            width: 0;
         }
 
         .page {
