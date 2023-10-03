@@ -1,11 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import { Image } from 'astro:assets';
+import MainImage from '../images/alex-and-chuck.jpeg';
 ---
 
 <Layout title="Home">
 	<main>
 		<h1>Welcome to <span class="text-gradient">Alex's Website</span></h1>
+		<div class="main-image">
+			<Image src={MainImage} alt="Alex sitting with his dog Charley." />
+		</div>
 	</main>
 </Layout>
 
@@ -18,15 +22,6 @@ import Card from '../components/Card.astro';
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
-	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
 	}
 	h1 {
 		font-size: 4rem;
