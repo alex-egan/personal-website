@@ -6,22 +6,29 @@ import MainImage from '../images/alex-and-chuck.jpeg';
 
 <Layout title="Home">
 	<main>
-		<h1>Welcome to <span class="text-gradient">Alex's Website</span></h1>
-		<div class="main-image">
-			<Image src={MainImage} alt="Alex sitting with his dog Charley." />
+		<div class="header-card bg-cover bg-center flex flex-col w-screen h-screen">
+			<h1>Welcome to <span class="text-gradient">Alex's Website</span></h1>
 		</div>
 	</main>
 </Layout>
 
 <style>
 	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		height: 100%;
+		width: 100%;
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	.header-card {
+		background-image: url('../images/alex-and-chuck.jpeg');
 	}
 	h1 {
 		font-size: 4rem;
@@ -60,5 +67,10 @@ import MainImage from '../images/alex-and-chuck.jpeg';
 		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
 		gap: 2rem;
 		padding: 0;
+	}
+	.img {
+		object-fit: contain;
+		height: 100%;
+		width: 100%;
 	}
 </style>
