@@ -6,8 +6,8 @@ interface Props {
 const { url } = Astro.props;
 ---
 
-<header id="header" class="m-8">
-    <nav class="flex content-center space-x-4 text-white">
+<header id="header" class="m-6">
+    <nav class="flex content-center text-white">
         <div id="main-header" class="flex w-full">
             <div class="w-full text-4xl">
                 <a class=`italic font-bold text-gradient` href="/">Alex Egan</a>
@@ -16,9 +16,15 @@ const { url } = Astro.props;
                 <button id="openSidebar" class="btn"><i class="fa-solid fa-bars"></i></button>
             </div>
         </div>
-        <div id="pages" class="options w-full flex justify-end space-x-8 mt-2 text-xl">
-            <button id="closeSidebar" class="close-button">X</button>
-    
+        <div id="drawer" class="drawer w-full flex justify-end space-x-8 text-xl">
+            <button id="closeSidebar" class="close-button m-6 text-3xl">X</button>
+        
+            <a class=`page hover-underline-animation ${url.includes("about") ? "underline" : ""}` href="/about">About</a>
+            <a class=`page hover-underline-animation ${url.includes("resume") ? "underline" : ""}`href="/resume">Resume</a>
+            <a class=`page hover-underline-animation ${url.includes("projects") ? "underline" : ""}`href="/projects">Projects</a>
+            <a class=`page hover-underline-animation ${url.includes("contact") ? "underline" : ""}` href="/contact">Contact</a>
+        </div>
+        <div id="options" class="options w-full flex justify-end space-x-8 text-xl">
             <a class=`page hover-underline-animation ${url.includes("about") ? "underline" : ""}` href="/about">About</a>
             <a class=`page hover-underline-animation ${url.includes("resume") ? "underline" : ""}`href="/resume">Resume</a>
             <a class=`page hover-underline-animation ${url.includes("projects") ? "underline" : ""}`href="/projects">Projects</a>
@@ -38,31 +44,21 @@ const { url } = Astro.props;
     });
 
     function openSidebar() {
-        document.getElementById("pages")?.classList.add("open");
-        document.getElementById("main-header")?.classList.add("closed");
+        document.getElementById("drawer")?.classList.add("open");
     }
 
     function closeSidebar() {
-        document.getElementById("pages")?.classList.remove("open");
-        document.getElementById("main-header")?.classList.remove("closed");
+        document.getElementById("drawer")?.classList.remove("open");
     }
 </script>
 
 <style>
     .menu {
-        display:none;
+        display: none;
     }
 
     .close-button {
         display: none;
-    }
-
-    .closed {
-        display: none;
-    }
-
-    .open {
-        transition: transform 10000ms ease-in;
     }
 
     a::after {
@@ -90,7 +86,7 @@ const { url } = Astro.props;
         width: 100%;
         transform: scaleX(0);
         height: 3px;
-        bottom: 0;
+        bottom: 4px;
         left: 0;
         background-color: rgb(var(--accent));
         transform-origin: bottom right;
@@ -104,12 +100,24 @@ const { url } = Astro.props;
 
     .underline {
 		text-decoration: "underline";
-		text-underline-offset: 8px;
+		text-underline-offset: 12px;
 		font-weight: bold;
 		transform: 1turn;
 	}
 
+    .drawer {
+        display: none;
+        transform: translate(100vw);
+        transition-duration: .4s;
+        visibility: hidden;
+    }
+
     @media screen and (max-width: 700px) {
+        .resize-animation-stopper * {
+            transition: none !important;
+            animation: none !important;
+        }
+
 		.menu {
             display: flex;
         }
@@ -117,7 +125,6 @@ const { url } = Astro.props;
         .close-button {
             display: flex;
             align-self: end;
-            
         }
 
         .hover-underline-animation::after {
@@ -126,30 +133,45 @@ const { url } = Astro.props;
 
         .options {
             display: none;
+        }
+
+        .drawer a, .drawer button {
+            color: black;
+        }
+
+        .resize {
+            transition: none;
+            animation-duration: 0s !important;
+            -webkit-animation-duration: 0s !important;
+        }
+
+        .drawer {
+            content: "";
+            position: absolute;
+            display: flex;
+            visibility: hidden;
+            flex-direction: column;
             justify-content: start;
-            align-items: center;
+            left: 0;
+            top:0;
+            margin: 0;
             width: 100vw;
             height: 100vh;
-		}
-
-        header.open {
-            height: 100%;
+            background-color: rgb(var(--accent));
         }
 
-        .open {
-            display: flex;
-            flex-direction: column;
-            justify-self: end;
-            width: 100vw;
-            transition: 10000ms ease-out;
-        }
-
-        .closed {
-            width: 0;
+        .drawer.open {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(0);
         }
 
         .page {
             margin-top: 1rem;
+        }
+
+        a:hover {
+            color: black;
         }
 	}
 </style>
